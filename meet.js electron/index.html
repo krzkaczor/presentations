@@ -40,13 +40,12 @@
 
 		<div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->m
 			<div class="slides">
 				<section>
 					<h1>Electron</h1>
 					<h3>Build desktop apps using web technologies</h3>
 					<p>
-						<small>Created by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
+						<small>by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
 					</p>
 
 					<p>
@@ -88,7 +87,7 @@
 
 				<section>
 					<section>
-						<h3>How?</h3>
+						<h3>How does it work?</h3>
 					</section>
 
 					<section>
@@ -205,6 +204,17 @@ ipc.on('asynchronous-reply', (arg) => {
 ipc.send('asynchronous-message', 'ping');
 						</code></pre>
 					</section>
+
+					<section>
+						<code>remote</code> module for the rescue
+					</section>
+
+					<section>
+<pre><code data-trim>
+var BrowserWindow = remote.require('browser-window');
+</code></pre>
+
+					</section>
 				</section>
 
 				<section>
@@ -250,6 +260,21 @@ app.on('window-all-closed', function() {
 						other features <br>
 						<img class="no-border" src="images/electron-feature1.png"/>
 						<img class="no-border" src="images/electron-feature2.png"/>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>debugging</h3>
+					</section>
+
+					<section>render process</section>
+					<section><img src="images/inspector.png"</section>
+
+
+					<section>main process</section>
+					<section>
+						node-inspector
 					</section>
 				</section>
 
