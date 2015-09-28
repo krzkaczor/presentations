@@ -1,0 +1,8 @@
+.no-border {
+    border: 0 !important;
+    background: inherit !important;
+}
+
+div.align-vertical-div > img{
+    vertical-align: middle;
+}

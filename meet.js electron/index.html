@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>NodeJS modules - Quick tips</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Electron</h1>
+					<h3>Build desktop apps using web technologies</h3>
+					<p>
+						<small>Created by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
+					</p>
+
+					<p>
+							<small>
+								 <i class="fa fa-rss"></i> <a href="http://kaczor.io">kaczor.io</a> |
+								 <i class="fa fa-twitter"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a> |
+								 <i class="fa fa-github-alt"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a>
+							</small>
+					</p>
+
+				</section>
+
+				<section>
+					<section>
+						<h3>Why?</h3>
+					</section>
+
+					<section>
+						cross-platform
+					</section>
+
+					<section>
+						using popular, well-known technologies
+					</section>
+
+					<section>
+						development speed
+					</section>
+
+					<section>
+						battle tested <br/>
+						<img src="images/electron-apps.png" />
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>How?</h3>
+					</section>
+
+					<section>
+						<div class="align-vertical-div">
+							<img class="no-border" src="images/chrome-logo.png" height="100"> + <img class="no-border" src="images/nodejs-logo.png" height="100">
+						</div>
+
+						<p class="fragment" data-fragment-index="0">
+							<i>you could also see it as a minimal Chromium browser, controlled by JavaScript</i>
+						</p>
+					</section>
+
+					<section>
+						no native GUI
+
+						<p class="fragment" data-fragment-index="0">but you can of course use <code>Metro UI CSS, Flat UI</code>  etc. to make is look similar to native</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>How simple this could be?</h3>
+					</section>
+
+					<section>
+						<pre><code data-trim>
+							npm install electron-prebuilt --g
+						</code></pre>
+
+						<pre><code data-trim>
+							touch index.js index.html
+						</code></pre>
+
+					</section>
+
+					<section>
+<pre><code data-trim>
+var app = require('app');
+var BrowserWindow = require('browser-window');
+
+var mainWindow = null;
+
+app.on('ready', function() {
+	mainWindow = new BrowserWindow({width: 800, height: 600});
+
+	mainWindow.loadUrl('file://' + __dirname + '/index.html');
+
+	mainWindow.on('closed', function() {
+		mainWindow = null;
+	});
+});
+
+</code></pre>
+					</section>
+
+					<section>
+
+<pre><code data-trim>
+&lt;html>
+&lt;head>
+	&lt;title>Hello World!&lt;/title>
+&lt;/head>
+&lt;body>
+<h1>Hello World!</h1>
+We are using io.js <script>document.write(process.version)</script>
+&lt;/body>
+&lt;/html>
+</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim>
+							electron .
+						</code></pre>
+					</section>
+
+					<section>
+						<img class="no-border" src="images/hello-world.png" />
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Application structure</h3>
+					</section>
+
+					<section>
+						Main process & renderer processes
+					</section>
+
+					<section>
+						IPC
+					</section>
+
+					<section>
+						<pre><code data-trim>
+// In main process.
+var ipc = require('ipc');
+ipc.on('asynchronous-message', (event, arg) => {
+	console.log(arg);
+	event.sender.send('asynchronous-reply', 'pong');
+});
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim>
+// In renderer process (web page).
+var ipc = require('ipc');
+
+ipc.on('asynchronous-reply', (arg) => {
+	console.log(arg);
+});
+ipc.send('asynchronous-message', 'ping');
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>System integration</h3>
+					</section>
+
+					<section>
+						Menus
+
+<pre><code data-trim>
+var menu = new Menu();
+menu.append(new MenuItem({ label: 'MenuItem1', click: function() { console.log('item 1 clicked'); } }));
+menu.append(new MenuItem({ type: 'separator' }));
+menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox'}));
+</code></pre>
+
+<pre><code data-trim>
+Menu.setApplicationMenu(menu);
+</code></pre>
+<pre><code data-trim>
+window.addEventListener('contextmenu', (e) => {
+	e.preventDefault();
+	menu.popup(remote.getCurrentWindow());
+}, false);
+</code></pre>
+					</section>
+
+					<section>
+						persistent app on mac
+
+<pre><code data-trim>
+app.on('window-all-closed', function() {
+	if (process.platform != 'darwin') {
+		app.quit();
+	}
+});
+</code></pre>
+
+					</section>
+
+					<section>
+						other features <br>
+						<img class="no-border" src="images/electron-feature1.png"/>
+						<img class="no-border" src="images/electron-feature2.png"/>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>native stuff</h3>
+					</section>
+
+					<section>
+						using platform specific nodejs wrappers
+						<p><small>
+							ex. <code>node-applescript</code>
+						</small></p>
+					</section>
+
+					<section>
+						<code>child_process.exec</code> etc.
+					</section>
+
+					<section>
+						native module
+
+						<aside class="notes">
+							Probably it is the best way to do this but I haven't got time to explore it
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+					<h3>Pain points & gotchas</h3>
+					</section>
+
+					<section>
+						io.js
+
+						<aside class="notes">
+							Modules incompatibilities
+						</aside>
+					</section>
+
+					<section>
+						package size
+					</section>
+
+					<section>
+						branding & packaging
+					</section>
+				</section>
+
+				<section>
+					Awesome Electron <br><img class="no-border" src="images/awesome.svg" /><br>
+
+					<a href="https://github.com/sindresorhus/awesome-electron">https://github.com/sindresorhus/awesome-electron</a>
+				</section>
+
+				<section>
+					That's All Folks!
+
+					<p><small>
+						Feedback welcome <br/>IRL or <a href="mailto:krzysztof@kaczor.io">krzysztof@kaczor.io</a>
+					</small></p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
