@@ -1,1 +1,1 @@
-[watch presentation](https://cdn.rawgit.com/krzkaczor/presentations/master/meet.js%20nodeJS%20modules/index.html)
+[watch presentation](https://rawgit.com/krzkaczor/presentations/master/meet.js%20electron/index.html#/)
