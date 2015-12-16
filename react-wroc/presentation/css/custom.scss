@@ -1,0 +1,76 @@
+$link-color: #337ab7;
+$hover-link-color: darken($link-color, 15%);
+$color-text: #333333;
+$color-background: rgba(245, 179, 179, 0.1);
+$color-purple: #5b5480;
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, "Lucida Grande", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 36px;
+  font-weight: 300;
+  color: $color-text;
+  background-color: $color-background;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $hover-link-color;
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.monospaced {
+  font-family: "Hack", monospace !important;
+}
+
+.icon {
+  height: 50px;
+  margin-left: 15px;
+}
+
+.reveal {
+  h1 {
+    font-size: 2.7em;
+    text-transform: uppercase;
+
+    &.smaller {
+      font-size: 2.4em;
+    }
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+  h3 {
+    margin-bottom: 15px;
+  }
+
+  small {
+    font-size: 0.8em;
+  }
+
+  pre code {
+    text-align: left;
+    font-size: 0.5em;
+    font-family: 'Hack', monospace;
+    white-space: pre-wrap !important;
+    overflow: hidden;
+    padding: 5px;
+  }
+
+  ul {
+    margin: auto;
+    width: 50%;
+    text-align: left;
+  }
+
+}

@@ -1,0 +1,18 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel index.js  --plugins operator-overload -o out.js && node out.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-operator-overload": "1.0.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "6.3.14",
+    "immutable": "3.7.5"
+  }
+}

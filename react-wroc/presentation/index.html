@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Electron - Build desktop apps using web technologies</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <link rel="stylesheet" href="highlight/solarized-dark.css">
+    <script src="highlight/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+<section>
+    <h1>React + ES6</h1>
+    <p>
+        <small>by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
+    </p>
+    <p>
+        <small>
+            <i class="fa fa-rss"></i> <a href="http://kaczor.io">kaczor.io</a> |
+            <i class="fa fa-twitter"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a> |
+            <i class="fa fa-github-alt"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a>
+        </small>
+    </p>
+</section>
+
+<section>
+    <h1>React + ES6 + ES7</h1>
+    <p>
+        <small>by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
+    </p>
+    <p>
+        <small>
+            <i class="fa fa-rss"></i> <a href="http://kaczor.io">kaczor.io</a> |
+            <i class="fa fa-twitter"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a> |
+            <i class="fa fa-github-alt"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a>
+        </small>
+    </p>
+</section>
+
+<section>
+    <h1 class="smaller">Cutting edge JS and React ecosystem</h1>
+    <p>
+        <small>by <a href="http://kaczor.io">Krzysztof Kaczor</a></small>
+    </p>
+    <p>
+        <small>
+            <i class="fa fa-rss"></i> <a href="http://kaczor.io">kaczor.io</a> |
+            <i class="fa fa-twitter"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a> |
+            <i class="fa fa-github-alt"></i> <a href="http://twitter.com/krzkaczor">krzkaczor</a>
+        </small>
+    </p>
+</section>
+
+<section>
+    <section>
+        <h2>Destructing values and spread operator</h2>
+    </section>
+
+    <section>
+<pre><code>//with arrays...
+let [a, b] = [1, 2];
+let [b, a] = [a, b]; //swap variables in one line :D
+let [a, b, ...rest] = [1, 2, 3, 4, 5]
+</code></pre>
+    <br>
+<pre class="fragment"><code>//... and with objects
+{a, b} = {a:1, b:2}
+{a, b, ...rest} = {a:1, b:2, c:3, d:4}  //ES7
+</code></pre>
+    </section>
+
+
+    <section>
+<pre><code class="javascript">function render() {
+    var comments = this.props.comments || [];
+    var clickCallback = this.props.clickCallback;
+    var className = this.props.className;
+
+    //...
+
+    return comments.map(function(comment) {
+        return &lt;CommentBox comment={comment} clickCallback={clickCallback} className={className} />
+    });
+}
+</code></pre>
+    </section>
+
+    <section>
+<pre><code>function render() {
+    let {comments = [], clickCallback, className} = this.props;
+
+    //...
+
+    return comments.map((comment) =>
+        &lt;CommentBox comment={comment} clickCallback={clickCallback} className={className} />
+    );
+}
+</code></pre>
+    </section>
+
+    <section>
+<pre><code>function render() {
+    let {comments = [] ...childProps} = this.props; //requires ES7
+
+    //...
+
+    return comments.map((comment) =>
+        &lt;CommentBox {...childProps} comment={comment}/> //JSX feature
+    );
+}
+</code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h2>Embracing native features</h2>
+    </section>
+
+    <section>
+        <h3>React with <span class="monospaced">.createClass</span>:</h3>
+        <ul>
+            <li>autobinding</li>
+            <li>mixins</li>
+        </ul>
+
+        <br>
+<pre class="fragment"><code>var ListClicker = React.createClass({
+    mixins: [Reflux.connect(LabelsStore)],
+
+    showAlert: function() {
+        this.props.selected();
+    },
+
+    render: function () {
+        var context = this;
+        return (
+            &lt;div>
+            {
+                this.state.labels.map(function(buttonLabel) {
+                    return &lt;button onClick={context.showAlert}>{buttonLabel}&lt;/button>
+                })
+            }
+            &lt;/div>
+        )
+        }
+    });
+</code></pre>
+    </section>
+
+    <section>
+        <h3>ES 6:</h3>
+        <ul>
+            <li>native classes</li>
+            <li>arrow functions</li>
+            <li>composition</li>
+        </ul>
+
+        <br>
+<pre class="fragment"><code>class ListClicker extends React.Component {
+    showAlert() {
+        this.props.selected();
+    }
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert.bind(this)}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+
+    <section>
+        <pre><code>function connectWithStore(store) {
+    return function (Component) {
+        return class StoreComponent extends Component {
+            constructor(props) {
+                super(props);
+                this.state = store.getInitialState();
+            }
+
+            componentDidMount() {
+                if (super.componentDidMount) {
+                    super.componentDidMount();
+                }
+
+                this.unsubsribe = store.listen(this.setState.bind(this));
+            }
+
+            componentWillUnmount() {
+                if (super.componentWillUnmount) {
+                    super.componentWillUnmount();
+                }
+
+                this.unsubsribe();
+            }
+        };
+    };
+}
+        </code></pre>
+
+        <br>
+        <pre class="fragment"><code>connectWithStore(LabelsStore)(ListClicker)</code></pre>
+    </section>
+
+    <section>
+        <h3>ES 7:</h3>
+        <ul>
+            <li>decorators</li>
+            <li>property initializers</li>
+        </ul>
+    </section>
+
+    <section>
+<pre><code>@connectWithStore(LabelsStore)
+class ListClicker extends React.Component {
+    showAlert() {
+        this.props.selected();
+    }
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert.bind(this)}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+    <section>
+<pre><code>@connectWithStore(LabelsStore)
+class ListClicker extends React.Component {
+    constructor(props) {
+        super(props);
+        this.showAlert = this.showAlert.bind(this);
+    }
+
+    showAlert() {
+        this.props.selected();
+    }
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+
+    <section>
+<pre><code>@connectWithStore(LabelsStore)
+class ListClicker extends React.Component {
+    @autobind
+    showAlert() {
+        this.props.selected();
+    }
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+
+    <section>
+<pre><code>@connectWithStore(LabelsStore)
+class ListClicker extends React.Component {
+    constructor(props) {
+        super(props);
+        this.showAlert = () => {
+            this.props.selected();
+        };
+    }
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+
+        <section>
+<pre><code>@connectWithStore(LabelsStore)
+class ListClicker extends React.Component {
+    showAlert = () => {
+        this.props.selected();
+    };
+
+    //use that pattern also for initial state, props etc.
+
+    render() {
+        return (
+        &lt;div>
+            {
+            this.state.labels.map(buttonLabel =>
+                &lt;button onClick={this.showAlert}>{buttonLabel}&lt;/button>
+            )
+            }
+        &lt;/div>
+        )
+    }
+}
+</code></pre>
+    </section>
+
+
+
+</section>
+
+<section>
+    <section>
+        <h2>Metaprogramming with proxies</h2>
+    </section>
+
+    <section><pre><code>var p = new Proxy({}, get: function(target, name){
+    return name in target? target[name] : throw new Error("Cannot get undefined!");
+});
+
+p.a = 1;
+
+console.log(p.a);
+console.log(p.b); //error
+    </code></pre>
+    </section>
+
+    <section>
+        <h3 class="monospaced">prop-validation-mixin</h3>
+        <pre><code>var Root = React.createComponent({
+  propTypes: {
+    name: React.PropTypes.string.isRequired
+  },
+  mixins: [PropValidationMixin],
+  render: function() {
+    return &lt;div>{this.props.surname}&lt;/div>;
+  }
+});
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h2>JavaScript as extensible language</h2>
+    </section>
+
+    <section>
+        <img src="images/flow-hero-logo.png" style="padding-bottom:30px;"/>
+
+<pre><code class="javascript">function foo(x: string, y: number): string {
+    return x.length * y;
+}
+foo('Hello', 42);
+</code></pre>
+    </section>
+
+    <section>
+        <div class="flex">
+            <img src="images/babel.png" class="aligner-item"/>
+            <img src="images/sweetjs.png" class="aligner-item"/>
+        </div>
+    </section>
+
+    <section>
+        <h3 class="monospaced">babel-operator-overload-plugin <img src="images/babel.png" class="icon"/></h3>
+<pre><code class="javascript">var Immutable = require('immutable');
+
+//it is limited only to build-in operators
+defineBinaryOperator('+', (l, r) => r.push(l)); //append ::
+defineBinaryOperator('&', (l, r) => l.concat(r)); //concat :::
+
+let numbers = Immutable.fromJS([1, 2, 3]);
+
+let moreNumbers =  4 + numbers;
+let evenMoreNumbers = 6 + (5 + moreNumbers); //no way to specify operator associativity
+let concatanedLists = numbers & evenMoreNumbers;
+
+console.log(numbers);          //List [ 1, 2, 3 ]
+console.log(moreNumbers);      //List [ 1, 2, 3, 4 ]
+console.log(evenMoreNumbers);  //List [ 1, 2, 3, 4, 5, 6 ]
+console.log(concatanedLists);  //List [ 1, 2, 3, 1, 2, 3, 4, 5, 6 ]
+</code></pre>
+    </section>
+
+    <section>
+        <h3 class="monospaced">React.hiccup<img src="images/sweetjs.png" class="icon"/></h3>
+        <pre><code class="javascript">hiccup [div#foo.bar.baz {some: "property", another: this.props.anothervalue}
+    [p "A child element"] "Child text"]</code></pre>
+    </section>
+
+</section>
+
+<section>
+    <h2>That's all folks!</h2>
+</section>
+
+
+        <!-- <section>
+            <section>
+                <h3>Why?</h3>
+            </section>
+
+            <section>
+                cross-platform
+            </section>
+
+            <section>
+                using popular, well-known technologies
+            </section>
+
+                                <section>
+                                        code reusability
+                                </section>
+
+            <section>
+                development speed
+            </section>
+
+            <section>
+                battle tested <br/>
+                <img src="images/electron-apps.png" />
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>How does it work?</h3>
+            </section>
+
+            <section>
+                <div class="align-vertical-div">
+                    <img class="no-border" src="images/chrome-logo.png" height="100"> + <img class="no-border" src="images/nodejs-logo.png" height="100">
+                </div>
+
+                <p class="fragment" data-fragment-index="0">
+                    <i>you could also see it as a minimal Chromium browser, controlled by JavaScript</i>
+                </p>
+            </section>
+
+            <section>
+                no native GUI
+
+                <p class="fragment" data-fragment-index="0">but you can of course use <code>Metro UI CSS, Flat UI</code>  etc. to make is look similar to native</p>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>How simple this could be?</h3>
+            </section>
+
+            <section>
+                <pre><code data-trim>
+npm install electron-prebuilt --g
+                </code></pre>
+
+                <pre><code data-trim>
+touch index.js index.html
+                </code></pre>
+
+            </section>
+
+            <section>
+<pre><code data-trim>
+var app = require('app');
+var BrowserWindow = require('browser-window');
+
+var mainWindow = null;
+
+app.on('ready', function() {
+mainWindow = new BrowserWindow({width: 800, height: 600});
+
+mainWindow.loadUrl('file://' + __dirname + '/index.html');
+
+mainWindow.on('closed', function() {
+mainWindow = null;
+});
+});
+
+</code></pre>
+            </section>
+
+            <section>
+
+<pre><code data-trim>
+&lt;html>
+&lt;head>
+&lt;title>Hello World!&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;h1>Hello World!&lt;/h1>
+We are using io.js &lt;script>document.write(process.version)&lt;/script>
+&lt;/body>
+&lt;/html>
+</code></pre>
+            </section>
+
+            <section>
+                <pre><code data-trim>
+electron .
+                </code></pre>
+            </section>
+
+            <section>
+                <img class="no-border" src="images/hello-world.png" />
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>Application structure</h3>
+            </section>
+
+            <section>
+                Main process & renderer processes
+            </section>
+
+            <section>
+                IPC
+            </section>
+
+            <section>
+                <pre><code data-trim>
+// In main process.
+var ipc = require('ipc');
+ipc.on('asynchronous-message', (event, arg) => {
+console.log(arg);
+event.sender.send('asynchronous-reply', 'pong');
+});
+                </code></pre>
+            </section>
+
+            <section>
+                <pre><code data-trim>
+// In renderer process (web page).
+var ipc = require('ipc');
+
+ipc.on('asynchronous-reply', (arg) => {
+console.log(arg);
+});
+ipc.send('asynchronous-message', 'ping');
+                </code></pre>
+            </section>
+
+            <section>
+                <code>remote</code> module for the rescue
+            </section>
+
+            <section>
+<pre><code data-trim>
+var BrowserWindow = remote.require('browser-window');
+</code></pre>
+
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>System integration</h3>
+            </section>
+
+            <section>
+                Menus
+
+<pre><code data-trim>
+var menu = new Menu();
+menu.append(new MenuItem({ label: 'MenuItem1', click: function() { console.log('item 1 clicked'); } }));
+menu.append(new MenuItem({ type: 'separator' }));
+menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox'}));
+</code></pre>
+
+<pre><code data-trim>
+Menu.setApplicationMenu(menu);
+</code></pre>
+<pre><code data-trim>
+window.addEventListener('contextmenu', (e) => {
+e.preventDefault();
+menu.popup(remote.getCurrentWindow());
+}, false);
+</code></pre>
+            </section>
+
+            <section>
+                persistent app on mac
+
+<pre><code data-trim>
+app.on('window-all-closed', function() {
+if (process.platform != 'darwin') {
+app.quit();
+}
+});
+</code></pre>
+
+            </section>
+
+            <section>
+                other features <br>
+                <img class="no-border" src="images/electron-feature1.png"/>
+                <img class="no-border" src="images/electron-feature2.png"/>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>debugging</h3>
+            </section>
+
+            <section>render process</section>
+            <section><img class="no-border" src="images/inspector.png"/></section>
+
+
+            <section>main process</section>
+        </section>
+
+        <section>
+            <section>
+                <h3>native stuff</h3>
+            </section>
+
+            <section>
+                using platform specific nodejs wrappers
+                <p><small>
+                    ex. <code>node-applescript</code>
+                </small></p>
+            </section>
+
+            <section>
+                <code>child_process.exec</code> etc.
+            </section>
+
+            <section>
+                native module
+
+                <aside class="notes">
+                    Probably it is the best way to do this but I haven't got time to explore it
+                </aside>
+            </section>
+        </section>
+
+        <section>
+            <section>
+            <h3>Pain points & gotchas</h3>
+            </section>
+
+            <section>
+                io.js
+
+                <aside class="notes">
+                    Modules incompatibilities
+                </aside>
+            </section>
+
+            <section>
+                package size
+            </section>
+
+            <section>
+                branding & packaging
+            </section>
+        </section>
+
+        <section>
+            Awesome Electron <br><img class="no-border" src="images/awesome.svg" /><br>
+
+            <a href="https://github.com/sindresorhus/awesome-electron">https://github.com/sindresorhus/awesome-electron</a>
+        </section>
+
+        <section>
+            That's All Folks!
+
+            <p><small>
+                Feedback welcome <br/>IRL or <a href="mailto:krzysztof@kaczor.io">krzysztof@kaczor.io</a>
+            </small></p>
+        </section> -->
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, condition: function () {
+                return !!document.querySelector('pre code');
+            }, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
