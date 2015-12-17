@@ -46,3 +46,6 @@ a {
   margin: auto;
   width: 50%;
   text-align: left; }
+
+.import-from img {
+  height: 30px; }

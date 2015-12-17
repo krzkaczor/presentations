@@ -85,20 +85,34 @@
 </section>
 
 <section>
+    <img src="images/stamp.png" style="width:100px;" />
+    <h2>STAMP</h2>
+    <h3><a href="https://stampapp.io/pl/">stampapp.io</a></h3>
+    <div class="import-from">
+        <img src="images/spotify.png">
+        <img src="images/rdio.png">
+        <img src="images/google-play-music.png">
+        <i class="fa fa-arrow-right"></i>
+        <img src="images/apple-music.png" style="background: black; padding: 0 1px;">
+        <img src="images/spotify.png">
+    </div>
+    <h3 class="fragment">Promocode: <span class="monospaced">REACTWROC</span> <span style="color:red">(-20%)</span></h3>
+</section>
+
+<section>
     <section>
         <h2>Destructing values and spread operator</h2>
     </section>
 
     <section>
 <pre><code>//with arrays...
-let [a, b] = [1, 2];
-let [b, a] = [a, b]; //swap variables in one line :D
-let [a, b, ...rest] = [1, 2, 3, 4, 5]
-</code></pre>
+let [a, b] = [1, 2];</code></pre>
+<pre class="fragment javascript"><code>let [b, a] = [a, b]; //swap variables in one line :D </code></pre>
+<pre class="fragment javascript"><code>let [a, b, ...rest] = [1, 2, 3, 4, 5]</code></pre>
     <br>
-<pre class="fragment"><code>//... and with objects
-{a, b} = {a:1, b:2}
-{a, b, ...rest} = {a:1, b:2, c:3, d:4}  //ES7
+<pre class="fragment javascript"><code>//... and with objects
+let {a, b} = {a:1, b:2}
+let {a, b, ...rest} = {a:1, b:2, c:3, d:4}  //ES7
 </code></pre>
     </section>
 
@@ -119,7 +133,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
     </section>
 
     <section>
-<pre><code>function render() {
+<pre class="javascript"><code>function render() {
     let {comments = [], clickCallback, className} = this.props;
 
     //...
@@ -132,7 +146,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
     </section>
 
     <section>
-<pre><code>function render() {
+<pre class="javascript"><code>function render() {
     let {comments = [] ...childProps} = this.props; //requires ES7
 
     //...
@@ -147,7 +161,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
 
 <section>
     <section>
-        <h2>Embracing native features</h2>
+        <h2>Classes...</h2>
     </section>
 
     <section>
@@ -158,7 +172,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
         </ul>
 
         <br>
-<pre class="fragment"><code>var ListClicker = React.createClass({
+<pre class="fragment javascript"><code>var ListClicker = React.createClass({
     mixins: [Reflux.connect(LabelsStore)],
 
     showAlert: function() {
@@ -190,7 +204,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
         </ul>
 
         <br>
-<pre class="fragment"><code>class ListClicker extends React.Component {
+<pre class="fragment javascript"><code>class ListClicker extends React.Component {
     showAlert() {
         this.props.selected();
     }
@@ -211,7 +225,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
     </section>
 
     <section>
-        <pre><code>function connectWithStore(store) {
+        <pre class="javascript"><code>function connectWithStore(store) {
     return function (Component) {
         return class StoreComponent extends Component {
             constructor(props) {
@@ -240,7 +254,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
         </code></pre>
 
         <br>
-        <pre class="fragment"><code>connectWithStore(LabelsStore)(ListClicker)</code></pre>
+        <pre class="fragment javascript"><code>connectWithStore(LabelsStore)(ListClicker)</code></pre>
     </section>
 
     <section>
@@ -252,7 +266,7 @@ let [a, b, ...rest] = [1, 2, 3, 4, 5]
     </section>
 
     <section>
-<pre><code>@connectWithStore(LabelsStore)
+<pre class="javascript"><code>@connectWithStore(LabelsStore)
 class ListClicker extends React.Component {
     showAlert() {
         this.props.selected();
@@ -273,7 +287,7 @@ class ListClicker extends React.Component {
 </code></pre>
     </section>
     <section>
-<pre><code>@connectWithStore(LabelsStore)
+<pre class="javascript"><code>@connectWithStore(LabelsStore)
 class ListClicker extends React.Component {
     constructor(props) {
         super(props);
@@ -300,7 +314,7 @@ class ListClicker extends React.Component {
     </section>
 
     <section>
-<pre><code>@connectWithStore(LabelsStore)
+<pre class="javascript"><code>@connectWithStore(LabelsStore)
 class ListClicker extends React.Component {
     @autobind
     showAlert() {
@@ -323,7 +337,7 @@ class ListClicker extends React.Component {
     </section>
 
     <section>
-<pre><code>@connectWithStore(LabelsStore)
+<pre class="javascript"><code>@connectWithStore(LabelsStore)
 class ListClicker extends React.Component {
     constructor(props) {
         super(props);
@@ -348,7 +362,7 @@ class ListClicker extends React.Component {
     </section>
 
         <section>
-<pre><code>@connectWithStore(LabelsStore)
+<pre class="javascript"><code>@connectWithStore(LabelsStore)
 class ListClicker extends React.Component {
     showAlert = () => {
         this.props.selected();
@@ -380,7 +394,7 @@ class ListClicker extends React.Component {
         <h2>Metaprogramming with proxies</h2>
     </section>
 
-    <section><pre><code>var p = new Proxy({}, get: function(target, name){
+    <section><pre class="javascript"><code>var p = new Proxy({}, get: function(target, name){
     return name in target? target[name] : throw new Error("Cannot get undefined!");
 });
 
@@ -393,7 +407,7 @@ console.log(p.b); //error
 
     <section>
         <h3 class="monospaced">prop-validation-mixin</h3>
-        <pre><code>var Root = React.createComponent({
+        <pre class="javascript"><code>var Root = React.createComponent({
   propTypes: {
     name: React.PropTypes.string.isRequired
   },
